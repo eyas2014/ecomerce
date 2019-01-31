@@ -1,0 +1,164 @@
+﻿@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - myEcomerce</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="~/css/site.css">
+    <link href="~/lib/open-iconic/font/css/open-iconic-bootstrap.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+
+
+
+</head>
+<body>
+    <div class="container">
+        <nav class="navbar navbar-expand-lg navbar-light">
+            <a class="navbar-brand" href="#"><img class="site-brand-img" src="~/images/166.jpg"></a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+                <ul class="navbar-nav nav-fill">
+                    <li class="nav-item dropdown">
+                        @if (SignInManager.IsSignedIn(User))
+                        {
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                @User.Identity.Name
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="/user/summary">Summary</a>
+                                <a class="dropdown-item" href="/user">Profile</a>
+                                <a class="dropdown-item" href="/user/addresses">Address Book</a>
+                                <a class="dropdown-item" href="/user/orders">My Orders</a>
+                                <div class="dropdown-divider"></div>
+                                <form asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })" method="post" id="logoutForm" class="navbar-right">
+                                    <button type="submit" class="dropdown-item">Sign Out</button>
+                                </form>
+                            </div>
+                        }
+                        else
+                        {
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Your Account
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="/identity/account/login">Login</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="/identity/account/register">Register</a>
+                            </div>
+                        }
+                    </li>
+                    @if (SignInManager.IsSignedIn(User))
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Wish List</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Notification</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Shopping Cart
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="#">Action</a>
+                                <a class="dropdown-item" href="#">Another action</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="#">Something else here</a>
+                            </div>
+                        </li>
+                    }
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Who we are
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="/about">About Us</a>
+                            <a class="dropdown-item" href="/refunds">Refund Policy</a>
+                            <a class="dropdown-item" href="/terms">Terms and Conditions</a>
+                            <a class="dropdown-item" href="/contact">Contact US</a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+
+        </nav>
+
+        <!--search box-->
+        <div class="search-box">
+            <div class="input-group w-100">
+                <div class="input-group-prepend dropdown">
+                    <button class="btn dropdown-toggle input-group-text  border-0" data-toggle="dropdown">
+                        All Catagories
+                    </button>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="#">Catagory A</a>
+                        <a class="dropdown-item" href="#">Catagory B</a>
+                        <a class="dropdown-item" href="#">Catagory C</a>
+                    </div>
+                </div>
+                <input class="form-control border-0" placeholder="Search...">
+                <div class="input-group-append">
+                    <button class="input-group-text border-0">
+                        <i class="fa fa-search"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+
+
+        <div>
+            @RenderBody()
+            <hr />
+        </div>
+    </div>
+
+    <!--footer-->
+    <div class="bg-light">
+        <br /><br /><br />
+        <div class=" container">
+            <div class="row">
+                <div class="col-md-4 text-center">
+                    <h6 class="text-secondary">COMPANY</h6>
+                    <small><a href="/about">About Us</a></small><br />
+                    <small><a href="/refunds">Refund Policy</a></small><br />
+                    <small><a href="/terms">Terms and Conditions</a></small>
+                </div>
+                <div class="col-md-4 text-center">
+                    <h6 class="text-secondary">SOCIAL</h6>
+                    <small><a href="">Facebook</a></small><br />
+                    <small><a href="">Twitter</a></small>
+                </div>
+                <div class="col-md-4">
+                    <small class="text-primary">Sign up for the newsletter and we'll inform you of updates, offers and more.</small>
+                    <form class="footer-input">
+
+                        <input type="email">
+                        <button class="btn btn-sm btn-primary">Sign up</button>
+
+
+                    </form>
+                </div>
+
+            </div>
+        </div>
+        <br /><br /><br />
+    </div>
+    @RenderSection("Scripts", required: false)
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+</body>
+</html>

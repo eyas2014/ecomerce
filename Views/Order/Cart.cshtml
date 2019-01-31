@@ -1,0 +1,50 @@
+﻿@using myEcomerce.Views.Shared;
+
+@{
+    ViewData["Title"] = "Cart";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var product = new _CartProductPartial
+    {
+        name = "sda daem mdaem mdaem mdae",
+        price = "USD88.88",
+        items = 10,
+        photo = "/images/product/1.jpg"
+
+    };
+}
+
+
+<div class="card mt-3">
+    <div class="card-header">
+        <span class="oi oi-cart"></span>
+        <span>Your Shopping Cart</span>
+    </div>
+
+    <div class="card-body p-3">
+        <span>Products in shopping cart 2 Items: 2,205.00</span>
+        <button class="btn btn-primary float-right">
+            <span class="oi oi-credit-card"></span>
+            Proceed to Checkout
+        </button>
+        <br /><br />
+        <hr class="bg-light">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 px-2">
+                    @await Html.PartialAsync("_CartProductPartial", product)
+                </div>
+                <div class="col-lg-6 px-2">
+                    @await Html.PartialAsync("_CartProductPartial", product)
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="card-footer">
+        Prices and availability are subject to changes. Your wish list is a temporary place to keep your wished items, so these prices can be different from when they were added.
+    </div>
+
+
+</div>
+

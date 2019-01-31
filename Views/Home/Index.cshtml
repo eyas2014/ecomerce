@@ -1,0 +1,70 @@
+﻿@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    Product[] topViewed = ViewData["topViewed"] as Product[];
+    Product[] topPurchased = ViewData["topPurchased"] as Product[];
+    Product[] topRated = ViewData["topRated"] as Product[];
+    string[] tags = ViewData["tags"] as string[];
+
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-2 pl-0"> 
+            <div class="card">
+                <div class="card-header">
+                    Product Tags Cloud
+                </div>
+                <div class="card-body">
+                    @foreach (string tag in tags)
+                    {
+                        <span class="pr-1"><a href="/search?q=@tag">@tag</a></span>
+                        }
+
+                </div>
+            </div>
+
+        </div>
+        <div class="col-md-10 px-0">
+            <h2>What other customers are looking at</h2>
+            <hr class="bg-info" />
+            <div class="row gallery">
+                @for (int i = 0; i < 4; i++)
+                {
+                    <div class="col-md-6 col-lg-3">
+                        @await Html.PartialAsync("_ProductCardPartial", topViewed[i])
+                    </div>
+                }
+            </div>
+            <h2>Recommendations for you in our categories</h2>
+            <hr class="bg-info" />
+            <div class="row gallery">
+                @for (int i = 0; i < 4; i++)
+                {
+                    <div class="col-md-6 col-lg-3">
+                        @await Html.PartialAsync("_ProductCardPartial", topRated[i])
+                    </div>
+                }
+            </div>
+            <h2>Store Trending</h2>
+            <hr class="bg-info" />
+            <div class="row gallery">
+                @for (int i = 0; i < 4; i++)
+                {
+                    <div class="col-md-6 col-lg-3">
+                        @await Html.PartialAsync("_ProductCardPartial", topPurchased[i])
+                    </div>
+                }
+            </div>
+
+
+        </div>
+    </div>
+
+
+
+</div>
+
+
+
+

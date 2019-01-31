@@ -1,0 +1,24 @@
+﻿@model _FormcontrolPartial;
+
+
+<div class="form-group">
+    @if (Model.title != null)
+    {
+    <label for="user_firstname">@Model.title</label>
+    }
+    <div class="input-group input-group-sm">
+        <div class="input-group-prepend">
+            <div class="input-group-text text-white  border border-@Model.color bg-@Model.color">
+                @if (Model.icon.Substring(0,2) == "oi")
+                {
+                    <small class="@Model.icon"></small>
+                }
+                else if (Model.icon.Substring(0,2) == "fa")
+                {
+                    <i class="@Model.icon"></i>
+                }
+            </div>
+        </div>
+        <input type="@Model.input_type" class="form-control border border-@Model.color" id="user_firstname" placeholder="@Model.placeholder">
+    </div>
+</div>

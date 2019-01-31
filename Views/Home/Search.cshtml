@@ -1,0 +1,20 @@
+﻿
+@{
+    ViewData["Title"] = "Search";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    Product[] searchResult = ViewData["searchResult"] as Product[];
+}
+
+<h6>Find @searchResult.Length products</h6>
+<hr class="bg-info border-info border">
+<div class="container">
+    <div class="row">
+        @foreach (Product product in searchResult)
+        {
+        <div class="col-md-3 col-sm-6">
+            @await Html.PartialAsync("_productCardPartial", product)
+        </div>
+         }
+    </div>
+ </div>
+

@@ -1,0 +1,138 @@
+﻿
+@{
+    ViewData["Title"] = "Address_book";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    Address[] addresses = ViewData["address"] as Address[];
+    OneLineFormcontrol fullname = new OneLineFormcontrol()
+    {
+        label = "Full Name",
+        icon = "fa fa-user",
+        name = "fullname"
+    };
+    OneLineFormcontrol line1 = new OneLineFormcontrol()
+    {
+        label = "Address Line1",
+        icon = "fa fa-map-marker",
+        name = "line1"
+    };
+    OneLineFormcontrol line2 = new OneLineFormcontrol()
+    {
+        label = "Address Line2",
+        icon = "fa fa-map-marker",
+        name = "line2"
+    };
+    OneLineFormcontrol city = new OneLineFormcontrol()
+    {
+        label = "City",
+        icon = "fa fa-map-marker",
+        name = "city"
+    };
+    OneLineFormcontrol state = new OneLineFormcontrol()
+    {
+        label = "State/Region",
+        icon = "fa fa-map-marker",
+        name = "state"
+    };
+    OneLineFormcontrol zipcode = new OneLineFormcontrol()
+    {
+        label = "Zip Code",
+        icon = "fa fa-map-marker",
+        name = "zipcode"
+    };
+    OneLineFormcontrol phonenumber = new OneLineFormcontrol()
+    {
+        label = "Phone Number",
+        icon = "fa fa-phone",
+        name = "phonenumber"
+    };
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-2 pl-0">
+            <br /><br />
+            <partial name="_navigator">
+        </div>
+        <div class="col-md-10">
+            <br />
+            <h3>My Shipping Addresses</h3>
+            <hr class="border border-info bg-info" />
+            <div class="pb-2 text-right">
+                <button type="button" class="btn btn-info" data-toggle="modal" data-target="#newAddressModel">
+                    <strong>+</strong>Enter a new address
+                </button>
+                <div class="modal fade" id="newAddressModel">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <form method="post" action="/user/updateAddress">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">New Address</h5>
+                                    <button type="button" class="close" data-dismiss="modal">
+                                        <span>&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+
+                                    @await Html.PartialAsync("_OneLineFormcontrol", fullname)
+                                    @await Html.PartialAsync("_OneLineFormcontrol", line1)
+                                    @await Html.PartialAsync("_OneLineFormcontrol", line2)
+                                    @await Html.PartialAsync("_OneLineFormcontrol", city)
+                                    @await Html.PartialAsync("_OneLineFormcontrol", state)
+                                    <div class="form-group">
+                                        <div class="input-group input-group-sm">
+                                            <div class="col-md-4">
+                                                <label for="user_firstname">Country:</label>
+                                            </div>
+                                            <input type="text" class="form-control border border-secondary ml-2" name="country">
+                                        </div>
+                                    </div>
+                                    @await Html.PartialAsync("_OneLineFormcontrol", zipcode)
+                                    @await Html.PartialAsync("_OneLineFormcontrol", phonenumber)
+
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-primary">Save changes</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="container">
+                <div class="row">
+                @foreach (Address address in addresses)
+                {
+                        <div class="col-md-4 mb-2">
+                            <div class="card border-info">
+                                <div class="card-header bg-info">@address.fullname</div>
+                                <div class="p-3">
+                                    <h6>@address.line1</h6>
+                                    <h6>@address.line2</h6>
+                                    <h6>
+                                        <span>@address.city</span>
+                                        <span class="pl-1">@address.state</span>
+                                    </h6>
+                                    <h6>@address.country</h6>
+                                    <hr class="bg-light">
+                                    <p>@address.phone</p>
+                                </div>
+                                <div class="card-footer text-center">
+                                    <form>
+                                        <input type="hidden" value="@address.id" name="id">
+                                        <button type="submit" class="btn btn-sm btn-danger" formmethod="post" formaction="/user/deleteAddress">Delete</button>
+                                        <button type="submit" class="btn btn-sm btn-danger" formaction="/user/deleteAddress">Default</button>
+                                        <button type="submit" class="btn btn-sm btn-danger" formaction="/user/deleteAddress">Edit</button>
+
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

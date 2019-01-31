@@ -1,0 +1,22 @@
+﻿@using myEcomerce.Views.Shared;
+@model _CartProductPartial;
+
+
+<div class="container  border-bottom">
+    <div class="row">
+        <div class="col-md-7 px-0">
+            <img class="product-img-md" src="@Model.photo">
+            <div class="">
+                <span>Delete</span>
+                <span class="border-left border-right">Save for Later</span>
+                <span>View Details</span>
+            </div>
+        </div>
+        <div class="col-md-5 px-0">
+            <p class="m-0">@Model.name</p>
+            <p class="m-0">@Model.price</p>
+            <p class="m-0">@Model.items</p>
+        </div>
+    </div>
+</div>
+

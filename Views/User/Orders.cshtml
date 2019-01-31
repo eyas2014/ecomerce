@@ -1,0 +1,72 @@
+﻿@using myEcomerce.Views.Shared;
+
+@{
+    ViewData["Title"] = "Orders";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var start_date = new _FormcontrolPartial
+    {
+        icon = "oi oi-calendar",
+        input_type = "date"
+    };
+    string[] tabs = { "Open Orders", "Unrated Orders", "Closed Orders", "Canceled Orders" };
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-2 pl-0">
+            <br /><br />
+            <partial name="_navigator">
+        </div>
+        <div class="col-md-10">
+            <br />
+            <h3>Your Orders</h3>
+            <hr class="border border-info bg-info" />
+            <div class="card bg-light pl-3">
+                <h6 class="pt-3">Order filters</h6>
+                <div class="row">
+                    <div class="col-md-3">
+                        @await Html.PartialAsync("_FormcontrolPartial", start_date)
+                    </div>
+                    <div class="col-md-3">
+                        @await Html.PartialAsync("_FormcontrolPartial", start_date)
+                    </div>
+                    <div class="col-md-2">
+                        <button class="btn btn-sm btn-success">
+                            <i class="fa fa-filter"></i>
+                            Filter Results
+                        </button>
+                    </div>
+                    <div class="col-md-2">
+                        <button class="btn btn-sm btn-success">
+                            <small class="oi oi-print"></small>
+                            Full Reports
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <ul class="nav nav-tabs">
+                    @foreach (string tab in tabs)
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">@tab</a>
+                        </li>
+                    }
+                </ul>
+                <table class="w-100">
+                    <tr>
+                        <th>Order</th>
+                        <th>Customer Name</th>
+                        <th>Email Address</th>
+                        <th>Updated On</th>
+                        <th>Items</th>
+                        <th>Total</th>
+                    </tr>
+                    <tbody></tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+</div>
+

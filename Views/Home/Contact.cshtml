@@ -1,0 +1,45 @@
+﻿
+@{
+    ViewData["Title"] = "Contact";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Contact</h2>
+<hr class="border border-info bg-info" />
+
+<Address>
+
+    Antvel <br />
+
+    734 Kuhn River Apt. 387 <br />
+
+    Darrickport, Nevada 12595 <br />
+
+    Phone: +6034070964208 / +4744825660429 <br />
+</Address>
+
+<p>Google Map goes here</p>
+
+<div class="card border border-primary" style="width: 48rem;">
+    <div class="card-header bg-primary text-white">
+        Tell us about your request
+    </div>
+    <div class="p-4">
+        <form>
+            <div class="form-group">
+                <label for="RequesterName">Name:</label>
+                <input type="text" class="form-control" id="RequesterName" aria-describedby="Name">
+            </div>
+            <div class="form-group">
+                <label for="RequesterEmail">Email:</label>
+                <input type="email" class="form-control" id="RequesterEmail" aria-describedby="Email">
+            </div>
+            <div class="form-group">
+                <label for="RequestMessage">Message:</label>
+                <textarea class="form-control" id="RequestMessage"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+</div>
+

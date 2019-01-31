@@ -1,0 +1,28 @@
+﻿@using myEcomerce.Views.Shared;
+
+    @{  ViewData["Title"] = "newaddress";
+        Layout = "~/Views/Shared/_Layout.cshtml";
+        _FormcontrolPartial line1 = new _FormcontrolPartial { title="line1"};
+    }
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-2 pl-0">
+                <br /><br />
+                <partial name="_navigator">
+            </div>
+            <div class="col-md-10">
+                <br />
+                <div class="card">
+                    <div class="card-header">
+                        You new address
+                    </div>
+                    <div class="card-body">
+                        <form>
+                            @await Html.PartialAsync("_FormcontrolPartial", line1);
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

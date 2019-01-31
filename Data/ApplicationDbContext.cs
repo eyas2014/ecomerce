@@ -1,0 +1,51 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
+
+namespace myEcomerce.Data
+{
+    public class ApplicationDbContext : IdentityDbContext
+    {
+        public DbSet<Product> Products {get; set;}
+
+        public DbSet<PersonalInfo> PersonalInfos {get; set;}
+
+        public DbSet<Address> Addresses { get; set; }
+
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
+            : base(options)
+        {
+        }
+    }
+
+    public class Product {
+
+        public int id { get; set; }
+        public string name { get; set; }
+        public string description { get; set; }
+        public string price { get; set; }
+        public int stock { get; set; }
+        public string features { get; set; }
+        public string rate_val { get; set; }
+        public string tags { get; set; }
+        public string brand { get; set; }
+        public int rate_count { get; set; }
+        public int? status { get; set; }
+        public int view_counts { get; set; }
+        public int sale_counts { get; set; }
+        public string condition { get; set; }
+
+        public Feature ParseFeature() {
+            return JsonConvert.DeserializeObject<Feature>(features);
+        }
+    }
+
+    public class Feature {
+        public string color;
+        public string dimensions;
+        public string weight;
+    }
+}

@@ -1,0 +1,28 @@
+﻿@model Info;
+
+@{
+    ViewData["Title"] = "About Us";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var index = Model.index;
+}
+<div class="push-footer">
+    <h2>@Model.tabs[index]</h2>
+    <hr class="border border-info bg-info" />
+    <ul class="nav nav-tabs">
+        @{
+            for (int i = 0; i < 3; i++)
+            {
+                <li class="nav-item border-info">
+                    <a class="nav-link @(i==index?"active": "")" href="/@Model.routes[i]">@Model.tabs[i]</a>
+                </li>
+            }
+        }
+    </ul>
+
+    <div class="about-content padding">
+        <p> @Model.content </p>
+    </div>
+</div>
+
+
+

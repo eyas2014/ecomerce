@@ -1,0 +1,17 @@
+﻿@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+
+@{
+    ViewData["Title"] = "Test";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Test</h2>
+
+<form mothod="get" action="/identity/account/logout">
+
+
+    <button type="submit">submit</button>
+</form>
+
+@await  Html.PartialAsync("_LoginPartial")

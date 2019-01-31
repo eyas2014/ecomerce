@@ -1,0 +1,33 @@
+﻿@model Product;
+
+<div class="card product-card p-2 mb-2">
+    <div class="image">
+         <img src="@("/images/product/"+Model.id+"_h250.jpg")">
+    </div>
+    <h6 class="card-price">@Model.price</h6>
+    <div class="title">
+        <h6>@Model.name</h6>
+    </div>
+    <div class="description">@Model.description</div>
+    <div class="container">
+        <div class="row">
+            <div class="col-4 text-white px-0">
+                <div class="product-card-action">
+                    <i class="fa fa-shopping-cart"></i>
+                </div>
+            </div>
+            <div class="col-4 text-white px-0">
+                <div class="product-card-action">
+                    <i class="fa fa-heart"></i>
+                </div>
+            </div>
+            <div class="col-4 text-white px-0">
+                <div class="product-card-action">
+                    <a href="/order/product/@Model.id">
+                    <i class="fa fa-eye"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

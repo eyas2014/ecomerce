@@ -1,0 +1,69 @@
+﻿
+@{
+    ViewData["Title"] = "wishlist";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    Product product = new Product
+    {
+        name = "dsda",
+        description = "dads masfs edads masfse dads masfs edads masf sedads masf sedads masf sedads masf sedads masf edads masf sedads masfse",
+        price = "USD888.99",
+
+
+        brand = "toyota",
+        stock = 1,
+
+    };
+}
+
+<div class="card my-3">
+    <div class="card-header bg-primary">
+        <h5 class="text-white float-left pt-2">
+        <i class="fa fa-gift"></i>
+        You wish Lists
+            </h5>
+        <button class="btn btn-warning float-right text-white">
+            <i class="fa fa-plus"></i>
+            Create a new wish list
+        </button>
+     </div>
+
+    <div class="card-body">
+        <table class="w-100">
+            <tr>
+                <th>Name</th>
+                <th>Items</th>
+                <th>Updated On</th>
+            </tr>
+        </table>
+
+    </div>
+
+
+    <div class="card-footer">
+        <p>Prices and availability are subject to changes. Your wish list is a temporary place to keep your wished items, so these prices can be different from when they were added.</p>
+        <button class="btn btn-success">
+            <i class="fa fa-shopping-cart"></i>
+            Continue shopping
+        </button>
+    
+    </div>
+
+
+</div>
+
+<h2>Related to items in your shopping cart</h2>
+<hr class="border-primary border bg-primary"/>
+<div class="container">
+    <div class="row">
+        @for (int i = 0; i < 4; i++)
+        {   <div class="col-lg-3 col-sm-6">
+            @await Html.PartialAsync("_ProductCardPartial", product)
+            </div>
+        }
+
+
+
+    </div>
+
+</div>
+
