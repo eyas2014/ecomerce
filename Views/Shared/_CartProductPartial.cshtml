@@ -7,9 +7,18 @@
         <div class="col-md-7 px-0">
             <img class="product-img-md" src="@Model.photo">
             <div class="">
-                <span>Delete</span>
-                <span class="border-left border-right">Save for Later</span>
-                <span>View Details</span>
+                <form>
+                <input type="hidden" value="@Model.detail_id" name="detail_id">
+                <button class="border-0 bg-white" formaction="/order/deletefromcart" formmethod="post">Delete</button>
+                @if (Model.type == "cart")
+                {
+                    <button formaction="/order/saveforlater" formmethod="post"class="border-0 bg-white">Save for Later</button>
+                }
+                else {
+                    <button formaction="/order/MoveToCart" formmethod="post" class="border-0 bg-white">Move to Cart</button>
+                }
+                <a href="@("/order/product/"+Model.product_id)">View Details</a>
+                </form>
             </div>
         </div>
         <div class="col-md-5 px-0">

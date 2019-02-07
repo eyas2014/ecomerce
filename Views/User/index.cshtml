@@ -6,10 +6,11 @@
 
     PersonalInfo personalInfo = ViewData["info"] as PersonalInfo;
 
-    var email_input = new _FormcontrolPartial {
+    var email_input = new _FormcontrolPartial
+    {
         title = "Email",
-        input_type="email",
-        placeholder=personalInfo.email
+        input_type = "email",
+        placeholder = personalInfo.email
     };
 
     var firstname_input = new _FormcontrolPartial
@@ -34,25 +35,25 @@
     {
         title = "Birth Date",
         input_type = "date",
-        placeholder=personalInfo.birthday
+        placeholder = personalInfo.birthday
     };
 
     var facebook_input = new _FormcontrolPartial
     {
         title = "Facebook",
         input_type = "text",
-        color="primary",
-        icon= "fab fa-facebook",
-        placeholder=personalInfo.facebook
+        color = "primary",
+        icon = "fab fa-facebook",
+        placeholder = personalInfo.facebook
     };
 
     var twitter_input = new _FormcontrolPartial
     {
         title = "Twitter",
         input_type = "text",
-        color="info",
+        color = "info",
         icon = "fab fa-twitter",
-        placeholder=personalInfo.twitter
+        placeholder = personalInfo.twitter
     };
 
     var website_input = new _FormcontrolPartial
@@ -65,7 +66,7 @@
     {
         title = "Old Password",
         input_type = "password",
-        icon="oi oi-lock-locked"
+        icon = "oi oi-lock-locked"
     };
     var newpassword_input = new _FormcontrolPartial
     {
@@ -83,97 +84,97 @@
 
 <div class="container">
     <div class="row">
-        <partial name="_navigator">
-            <div class="col-md-10">
-                <h2>User Profile Information</h2>
-                <hr class="border border-info bg-info" />
-                <div>
-                    <img class="big-avartar" src="~/images/no-avatar.png">
-                    <span class="align-top h2 text-primary">User Name</span>
-                </div>
-                <form>
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-md-4">
-                                @await Html.PartialAsync("_FormcontrolPartial", firstname_input)
-                                @await Html.PartialAsync("_FormcontrolPartial", birthdate_input)
-                                @await Html.PartialAsync("_FormcontrolPartial", nickname_input)
-                                <div class="form-group">
-                                    <label for="user_firstname">Avartar</label>
-                                    <input type="file" class="btn-sm border border-secondary p-2  w-100">
-                                </div>
-
-                            </div>
-
-                            <div class="col-md-4">
-                                @await Html.PartialAsync("_FormcontrolPartial", lastname_input)
-                                @await Html.PartialAsync("_FormcontrolPartial", email_input)
-                                <div class="form-group">
-                                    <label for="user_firstname">Gender</label>
-                                    <select class="form-control border border-secondary" value="">
-                                        <option>Male</option>
-                                        <option>Female</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <hr class="bg-light">
-                        <div class="text-right">
-                            <button class="btn btn-sm btn-success">
-                                <span class="oi oi-clipboard"></span>
-                                Update Profile
-                            </button>
-                        </div>
-                    </div>
-                </form>
-                <h3>Social Information</h3>
-                <hr class="border border-info bg-info" />
-                <form>
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-md-4">
-                                @await Html.PartialAsync("_FormcontrolPartial", facebook_input)
-                                @await Html.PartialAsync("_FormcontrolPartial", twitter_input)
-                                @await Html.PartialAsync("_FormcontrolPartial", website_input)
-
-
-                            </div>
-                        </div>
-                        <hr class="bg-light">
-                        <div class="text-right">
-                            <button class="btn btn-sm btn-success">
-                                <span class="oi oi-clipboard"></span>
-                                Update Profile
-                            </button>
-                        </div>
-                    </div>
-                </form>
-                <h3>Account Settings</h3>
-                <hr class="border border-info bg-info" />
-                <form>
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-md-4">
-                                @await Html.PartialAsync("_FormcontrolPartial", oldpassword_input)
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-4">
-                                @await Html.PartialAsync("_FormcontrolPartial", newpassword_input)
-                            </div>
-                            <div class="col-md-4">
-                                @await Html.PartialAsync("_FormcontrolPartial", passwordconfirmation_input)
-                            </div>
-                        </div>
-                        <hr class="bg-light">
-                        <div class="text-right">
-                            <button class="btn btn-sm btn-success">
-                                <span class="oi oi-clipboard"></span>
-                                Update Profile
-                            </button>
-                        </div>
-                    </div>
-                </form>
-            </div>
+        <div class="col-md-2 pl-0">
+            <partial name="_navigator">
         </div>
+        <div class="col-md-10 pr-0">
+            <h2>User Profile Information</h2>
+            <hr class="border border-info bg-info" />
+            <div>
+                <img class="big-avartar" src="~/images/no-avatar.png">
+                <span class="align-top h2 text-primary">User Name</span>
+            </div>
+            <form>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-4">
+                            @await Html.PartialAsync("_FormcontrolPartial", firstname_input)
+                            @await Html.PartialAsync("_FormcontrolPartial", birthdate_input)
+                            @await Html.PartialAsync("_FormcontrolPartial", nickname_input)
+                            <div class="form-group">
+                                <label for="user_firstname">Avartar</label>
+                                <input type="file" class="btn-sm border border-secondary p-2  w-100">
+                            </div>
+
+                        </div>
+
+                        <div class="col-md-4">
+                            @await Html.PartialAsync("_FormcontrolPartial", lastname_input)
+                            @await Html.PartialAsync("_FormcontrolPartial", email_input)
+                            <div class="form-group">
+                                <label for="user_firstname">Gender</label>
+                                <select class="form-control border border-secondary" value="">
+                                    <option>Male</option>
+                                    <option>Female</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <hr class="bg-light">
+                    <div class="text-right">
+                        <button class="btn btn-sm btn-success">
+                            <span class="oi oi-clipboard"></span>
+                            Update Profile
+                        </button>
+                    </div>
+                </div>
+            </form>
+            <h3>Social Information</h3>
+            <hr class="border border-info bg-info" />
+            <form>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-4">
+                            @await Html.PartialAsync("_FormcontrolPartial", facebook_input)
+                            @await Html.PartialAsync("_FormcontrolPartial", twitter_input)
+                            @await Html.PartialAsync("_FormcontrolPartial", website_input)
+                        </div>
+                    </div>
+                    <hr class="bg-light">
+                    <div class="text-right">
+                        <button class="btn btn-sm btn-success">
+                            <span class="oi oi-clipboard"></span>
+                            Update Profile
+                        </button>
+                    </div>
+                </div>
+            </form>
+            <h3>Account Settings</h3>
+            <hr class="border border-info bg-info" />
+            <form>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-4">
+                            @await Html.PartialAsync("_FormcontrolPartial", oldpassword_input)
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            @await Html.PartialAsync("_FormcontrolPartial", newpassword_input)
+                        </div>
+                        <div class="col-md-4">
+                            @await Html.PartialAsync("_FormcontrolPartial", passwordconfirmation_input)
+                        </div>
+                    </div>
+                    <hr class="bg-light">
+                    <div class="text-right">
+                        <button class="btn btn-sm btn-success">
+                            <span class="oi oi-clipboard"></span>
+                            Update Profile
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>

@@ -15,6 +15,10 @@ namespace myEcomerce.Data
 
         public DbSet<Address> Addresses { get; set; }
 
+        public DbSet<Order> Orders { get; set; }
+
+        public DbSet<Order_detail> Order_details { get; set; }
+
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
