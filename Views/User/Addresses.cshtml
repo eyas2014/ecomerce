@@ -1,8 +1,8 @@
-﻿
-@{
+﻿@{
     ViewData["Title"] = "Address_book";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    Address[] addresses = ViewData["address"] as Address[];
+    Address[] addresses = ViewData["addresses"] as Address[];
+    Address default_address = ViewData["default"] as Address;
     OneLineFormcontrol fullname = new OneLineFormcontrol()
     {
         label = "Full Name",
@@ -45,6 +45,8 @@
         icon = "fa fa-phone",
         name = "phonenumber"
     };
+
+    bool isEdit = !Context.Request.Path.ToString().Contains("select");
 }
 
 <div class="container">
@@ -62,7 +64,7 @@
                 <div class="modal fade" id="newAddressModel">
                     <div class="modal-dialog modal-dialog-centered" role="document">
                         <div class="modal-content">
-                            <form method="post" action="/user/updateAddress">
+                            <form method="post" action="/user/AddAddress">
                                 <div class="modal-header">
                                     <h5 class="modal-title">New Address</h5>
                                     <button type="button" class="close" data-dismiss="modal">
@@ -88,6 +90,7 @@
                                     @await Html.PartialAsync("_OneLineFormcontrol", phonenumber)
 
                                 </div>
+                                <input type="hidden" value="@Context.Request.Path.ToString()" name="source_path">
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                                     <button type="submit" class="btn btn-primary">Save changes</button>
@@ -96,12 +99,18 @@
                         </div>
                     </div>
                 </div>
-
             </div>
             <div class="container px-0">
                 <div class="row">
-                @foreach (Address address in addresses)
-                {
+                    @foreach (Address address in addresses)
+                    {
+                        fullname.value = address.fullname;
+                        line1.value = address.line1;
+                        line2.value = address.line2;
+                        city.value = address.city;
+                        state.value = address.state;
+                        zipcode.value = address.zipcode;
+                        phonenumber.value = address.phone;
                         <div class="col-md-4 mb-2">
                             <div class="card border-info">
                                 <div class="card-header bg-info">@address.fullname</div>
@@ -118,18 +127,120 @@
                                 </div>
                                 <div class="card-footer text-center">
                                     <form>
-                                        <input type="hidden" value="@address.id" name="id">
+                                        <input type="hidden" value="@address.id" name="address_id">
+                                        <input type="hidden" value="@Context.Request.Path.ToString()" name="source_path">
                                         <button type="submit" class="btn btn-sm btn-danger" formmethod="post" formaction="/user/deleteAddress">Delete</button>
-                                        <button type="submit" class="btn btn-sm btn-danger" formaction="/user/deleteAddress">Default</button>
-                                        <button type="submit" class="btn btn-sm btn-danger" formaction="/user/deleteAddress">Edit</button>
-
+                                        <button type="button" class="btn btn-sm btn-info" data-toggle="modal" data-target="#editAddressModel-@address.id">Edit</button>
+                                        @if (address.isDefault == "true")
+                                        {
+                                            <button type="button" class="btn btn-sm btn-dark">Default</button>
+                                        }
+                                        else if (address.isDefault == "false" && isEdit)
+                                        {
+                                            <button type="submit" class="btn btn-sm btn-light" formaction="/user/setdefault" formmethod="post">Set Default</button>
+                                        }
+                                        else
+                                        {
+                                            <button type="submit" class="btn btn-sm btn-danger" formaction="/order/review" formmethod="post">Use This Address</button>
+                                        }
                                     </form>
+                                    <div class="modal fade" id="editAddressModel-@address.id">
+                                        <div class="modal-dialog modal-dialog-centered" role="document">
+                                            <div class="modal-content">
+                                                <form method="post" action="/user/updateAddress">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title">Edit Address</h5>
+                                                        <button type="button" class="close" data-dismiss="modal">
+                                                            <span>&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+
+                                                        @await Html.PartialAsync("_OneLineFormcontrol", new OneLineFormcontrol()
+                                                   {
+                                                       label = "Full Name",
+                                                       icon = "fa fa-user",
+                                                       name = "fullname",
+                                                       value=address.fullname
+                                                   })
+                                                        @await Html.PartialAsync("_OneLineFormcontrol", new OneLineFormcontrol()
+                                                   {
+                                                       label = "Address Line1",
+                                                       icon = "fa fa-map-marker",
+                                                       name = "line1",
+                                                       value=address.line1
+                                                   })
+                                                        @await Html.PartialAsync("_OneLineFormcontrol", new OneLineFormcontrol()
+                                                   {
+                                                       label = "Address Line2",
+                                                       icon = "fa fa-map-marker",
+                                                       name = "line2",
+                                                       value=address.line2
+                                                   })
+                                                        @await Html.PartialAsync("_OneLineFormcontrol", new OneLineFormcontrol()
+                                                   {
+                                                       label = "City",
+                                                       icon = "fa fa-map-marker",
+                                                       name = "city",
+                                                       value = address.city
+                                                   })
+                                                        @await Html.PartialAsync("_OneLineFormcontrol", new OneLineFormcontrol()
+                                                   {
+                                                       label = "State/Region",
+                                                       icon = "fa fa-map-marker",
+                                                       name = "state",
+                                                       value = address.state
+                                                   })
+                                                        <div class="form-group">
+                                                            <div class="input-group input-group-sm">
+                                                                <div class="col-md-4">
+                                                                    <label for="user_firstname">Country:</label>
+                                                                </div>
+                                                                <input type="text" class="form-control border border-secondary ml-2" name="country" value="@address.country">
+                                                            </div>
+                                                        </div>
+                                                        @await Html.PartialAsync("_OneLineFormcontrol", new OneLineFormcontrol()
+                                                   {
+                                                       label = "Zip Code",
+                                                       icon = "fa fa-map-marker",
+                                                       name = "zipcode",
+                                                       value = address.zipcode
+                                                   })
+                                                        @await Html.PartialAsync("_OneLineFormcontrol", new OneLineFormcontrol()
+                                                   {
+                                                       label = "Phone Number",
+                                                       icon = "fa fa-phone",
+                                                       name = "phonenumber",
+                                                       value=address.phone
+                                                   })
+
+                                                    </div>
+                                                    <input type="hidden" value="@address.id" name="address_id">
+                                                    <input type="hidden" value="@Context.Request.Path.ToString()" name="source_path">
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                        <button type="submit" class="btn btn-primary">Save changes</button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+
                                 </div>
                             </div>
                         </div>
-                }
+                    }
                 </div>
             </div>
+            @if (!isEdit && default_address != null)
+            {
+                <form method="post" action="/order/review">
+                    <input type="hidden" name="address_id" value="@default_address.id">
+                    <Button type="submit" class="btn btn-info float-right">
+                        Use default address<strong>-></strong>
+                    </Button>
+                </form>
+            }
         </div>
     </div>
 </div>

@@ -4,17 +4,6 @@
 @using Microsoft.EntityFrameworkCore
 
 
-@{
-    string user_id = UserManager.GetUserId(User);
-    Order order_cart = Db.Orders.Where(o => o.type == "cart")
-                     .Include(o => o.order_details)
-                         .ThenInclude(od => od.product)
-                     .FirstOrDefault(O => O.user_id == user_id);
-    List<Order_detail> order_details = order_cart.order_details;
-
-
-}
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -72,6 +61,12 @@
                     </li>
                     @if (SignInManager.IsSignedIn(User))
                     {
+                        string user_id = UserManager.GetUserId(User);
+                        Order order_cart = Db.Orders.Where(o => o.type == "cart")
+                                         .Include(o => o.order_details)
+                                             .ThenInclude(od => od.product)
+                                         .FirstOrDefault(O => O.user_id == user_id);
+
                         <li class="nav-item">
                             <a class="nav-link" href="#">Wish List</a>
                         </li>
@@ -81,24 +76,31 @@
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="badge badge-pill badge-primary">@order_details.Count()</span>Shopping Cart
+                                @if(order_cart != null){
+                                <span class="badge badge-pill badge-primary">@order_cart.order_details.Count()</span>
+                                }
+                                Shopping Cart
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                @foreach (Order_detail detail in order_details)
+                                @if (order_cart != null)
                                 {
-                                    <div class="dropdown-item" href="#">
-                                        <div class="nav-cart-item">
-                                            <img src="@("/images/product/"+detail.product.id+"_h60.jpg")">
-                                            <div>
-                                                <small>
-                                                    <span>@detail.product.name</span>
-                                                    <span>-Qty:@detail.quantity</span>
-                                                </small>
+                                    List<Order_detail> order_details = order_cart.order_details;
+                                    foreach (Order_detail detail in order_details)
+                                    {
+                                        <div class="dropdown-item" href="#">
+                                            <div class="nav-cart-item">
+                                                <img src="@("/images/product/" + detail.product.id + "_h60.jpg")">
+                                                <div>
+                                                    <small>
+                                                        <span>@detail.product.name</span>
+                                                        <span>-Qty:@detail.quantity</span>
+                                                    </small>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    }
+                                    <div class="dropdown-divider"></div>
                                 }
-                                <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="/order/cart">View Shopping Cart</a>
                             </div>
                         </li>
@@ -146,12 +148,11 @@
 
         <div class="pt-3">
             @RenderBody()
-            <hr />
         </div>
     </div>
 
     <!--footer-->
-    <div class="bg-light">
+    <div class="bg-light mt-3">
         <br /><br /><br />
         <div class=" container">
             <div class="row">

@@ -15,13 +15,15 @@ namespace myEcomerce.Controllers
         private string _user_id { get; set; }
         private UserManager<IdentityUser> _userManager { get; set; }
 
-        public OrderController(ApplicationDbContext Db, UserManager<IdentityUser> userManager) {
+        public OrderController(ApplicationDbContext Db, UserManager<IdentityUser> userManager)
+        {
             _db = Db;
             _userManager = userManager;
         }
 
 
-        public IActionResult Product(int id) {
+        public IActionResult Product(int id)
+        {
 
             Product product = _db.Products.Find(id);
 
@@ -32,35 +34,20 @@ namespace myEcomerce.Controllers
         }
 
         [HttpGet]
-        public IActionResult Cart() {
-            _user_id = _userManager.GetUserId(User);
-            Order order_cart = _db.Orders.Where(o => o.type == "cart")
-                                    .Include(o=>o.order_details)
-                                        .ThenInclude(od=>od.product)                                 
-                                    .FirstOrDefault(O => O.user_id ==_user_id);
-
-            Order order_later = _db.Orders.Where(o => o.type == "later")
-                        .Include(o => o.order_details)
-                            .ThenInclude(od => od.product)
-                        .FirstOrDefault(O => O.user_id == _user_id);
-
-            if (order_later == null){
-                order_later = new Order()
-                {
-                    user_id = _user_id,
-                    type = "later",
-                    status = "open",
-                    order_details = new List<Order_detail>()
-                };
-                _db.Orders.Add(order_later);
-                _db.SaveChanges();
-            }
-
-            ViewData["cart"] = order_cart.order_details;
-            ViewData["later"]= order_later.order_details;
-
+        public IActionResult Cart()
+        {
+            ViewData["cart"] = getCart("cart").order_details;
+            ViewData["later"] = getCart("later").order_details;
             return View("cart");
-         }
+        }
+
+        public IActionResult Review(int address_id)
+        {
+            _user_id = _userManager.GetUserId(User);
+            ViewData["cart"] = getCart("cart").order_details;
+            ViewData["address"] = _db.Addresses.Find(address_id);
+            return View("cart");
+        }
 
         [HttpPost]
         public void AddToCart(int product_id, string quantity)
@@ -68,7 +55,7 @@ namespace myEcomerce.Controllers
             _user_id = _userManager.GetUserId(User);
             Order basicCart = _db.Orders
                                  .Where(o => o.type == "cart")
-                                 .Include(o=>o.order_details)
+                                 .Include(o => o.order_details)
                                  .FirstOrDefault(O => O.user_id == _user_id);
 
             if (basicCart == null)
@@ -78,14 +65,15 @@ namespace myEcomerce.Controllers
                     user_id = _user_id,
                     type = "cart",
                     status = "open",
-                    order_details=new List<Order_detail>()
+                    order_details = new List<Order_detail>()
                 };
                 _db.Orders.Add(basicCart);
             }
 
             Product product = _db.Products.Find(product_id);
 
-            Order_detail order_detail = new Order_detail() {
+            Order_detail order_detail = new Order_detail()
+            {
                 quantity = Int32.Parse(quantity),
                 product = product,
                 status = "1"
@@ -97,7 +85,8 @@ namespace myEcomerce.Controllers
         }
 
         [HttpPost]
-        public void DeleteFromCart(string detail_id) {
+        public void DeleteFromCart(string detail_id)
+        {
             int id = Int32.Parse(detail_id);
             Order_detail itemToDelete = _db.Order_details.Find(id);
             _db.Order_details.Remove(itemToDelete);
@@ -106,13 +95,14 @@ namespace myEcomerce.Controllers
         }
 
         [HttpPost]
-        public void SaveForLater(string detail_id) {
+        public void SaveForLater(string detail_id)
+        {
             int id = Int32.Parse(detail_id);
             Order_detail itemToSave = _db.Order_details.Find(id);
 
             _user_id = _userManager.GetUserId(User);
             Order basicCart = _db.Orders
-                                 .Where(o=>o.type=="later")
+                                 .Where(o => o.type == "later")
                                  .FirstOrDefault(O => O.user_id == _user_id);
 
             itemToSave.Orderid = basicCart.id;
@@ -136,26 +126,64 @@ namespace myEcomerce.Controllers
             Response.Redirect("/order/cart");
         }
 
-        private Product[] relatedProducts(string tags) {
+        public IActionResult PlaceOrder() {
+            int address_id = Int32.Parse(Request.Form["address_id"]);
+            _user_id = _userManager.GetUserId(User);
+            Order cart_order = _db.Orders
+                                .Where(O => O.user_id == _user_id)
+                                .First(o => o.type == "cart");
+            cart_order.address_id = address_id;
+            cart_order.type = "order";
+            _db.SaveChanges();
+            return View("success");
+        }
+
+        private Product[] relatedProducts(string tags)
+        {
             string[] tagsArray = tags.Split(",");
             Product[] products = _db.Products.ToArray();
             int size = products.Length;
             Dictionary<int, int> similarity = new Dictionary<int, int>();
             for (int i = 0; i < 150; i++) similarity[i] = 0;
-            foreach (string tag in tagsArray) {
-                for (int i = 0; i < size; i++) {
+            foreach (string tag in tagsArray)
+            {
+                for (int i = 0; i < size; i++)
+                {
                     if (products[i].tags.Contains(tag)) similarity[i]++;
                 }
             }
-            var HighRelated=similarity.OrderByDescending(node => node.Value).ToArray();
+            var HighRelated = similarity.OrderByDescending(node => node.Value).ToArray();
 
-            Product[] related=new Product[4];
-            for (int i = 0; i < 4; i++) {
-                related[i]=_db.Products.Find(HighRelated.ElementAt(i).Key+1);
+            Product[] related = new Product[4];
+            for (int i = 0; i < 4; i++)
+            {
+                related[i] = _db.Products.Find(HighRelated.ElementAt(i).Key + 1);
             }
 
             return related;
-             
+        }
+
+        private Order getCart(string type)
+        {
+            _user_id = _userManager.GetUserId(User);
+            Order cart = _db.Orders.Where(o => o.type == type)
+                                    .Include(o => o.order_details)
+                                        .ThenInclude(od => od.product)
+                                    .FirstOrDefault(O => O.user_id == _user_id);
+            if (cart == null)
+            {
+                cart = new Order()
+                {
+                    user_id = _user_id,
+                    type = type,
+                    status = "open",
+                    order_details = new List<Order_detail>()
+                };
+                _db.Orders.Add(cart);
+                _db.SaveChanges();
+            }
+
+            return cart;
         }
     }
 }

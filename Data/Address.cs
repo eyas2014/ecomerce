@@ -17,5 +17,6 @@ namespace myEcomerce.Data
         public string zipcode { get; set; }
         public string country { get; set; }
         public string phone { get; set; }
+        public string isDefault { get; set; } = "false";
     }
 }

@@ -19,6 +19,10 @@ namespace myEcomerce
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>();
+                   .ConfigureLogging(logging => {
+                       logging.AddConsole();
+                       logging.AddDebug();
+                   })
+                   .UseStartup<Startup>();
     }
 }
