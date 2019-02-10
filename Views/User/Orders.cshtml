@@ -8,7 +8,9 @@
         icon = "oi oi-calendar",
         input_type = "date"
     };
-    string[] tabs = { "Open Orders", "Unrated Orders", "Closed Orders", "Canceled Orders" };
+    string[] tabs = { "Open Orders", "Closed Orders", "Canceled Orders" };
+    Order[] orders = ViewData["orders"] as Order[];
+    string select = Context.Request.Path.ToString().Split("/")[3];
 }
 
 <div class="container">
@@ -46,8 +48,9 @@
                 <ul class="nav nav-tabs">
                     @foreach (string tab in tabs)
                     {
+                        string redirect = tab.Split(" ")[0];
                         <li class="nav-item">
-                            <a class="nav-link" href="#">@tab</a>
+                            <a class="nav-link" href="/user/orders/@redirect">@tab</a>
                         </li>
                     }
                 </ul>
@@ -60,7 +63,30 @@
                         <th>Items</th>
                         <th>Total</th>
                     </tr>
-                    <tbody></tbody>
+                    <tbody>
+
+                        @for (int i=0; i< orders.Length; i++)
+                        {
+                            Order order = orders[i];
+                            int total = 0;
+                            if (order.status == select.ToLower())
+                            {
+                                List<Order_detail> details = order.order_details;
+                                foreach (Order_detail detail in details)
+                                {
+                                    total = total + detail.quantity * Int32.Parse(detail.product.price);
+                                }
+                                <tr>
+                                    <td><a href="/">00<span>@(i + 1)</span></a></td>
+                                    <td>@order.address.fullname</td>
+                                    <td>@order.email</td>
+                                    <td>@order.updated_at</td>
+                                    <td>@order.order_details.Count()</td>
+                                    <td>@total</td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
                 </table>
             </div>
 

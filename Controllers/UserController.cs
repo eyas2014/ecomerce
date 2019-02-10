@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using myEcomerce.Data;
 
@@ -22,6 +23,13 @@ namespace myEcomerce.Controllers
             _signInManager = signInManager;
             _userManager = userManager;
             _logger = logger;
+            
+        }
+
+        private string _user_id {
+            get {
+                return _userManager.GetUserId(User);
+            }
         }
 
         private readonly ILogger _logger;
@@ -41,14 +49,18 @@ namespace myEcomerce.Controllers
 
         public IActionResult Addresses(string action)
         {
-            string userId = _userManager.GetUserId(User);
-            ViewData["addresses"] = _db.Addresses.Where(u => u.user_id == userId).ToArray();
-            ViewData["default"] = _db.Addresses.Where(a => a.user_id == userId).FirstOrDefault(a => a.isDefault == "true");
+            ViewData["addresses"] = _db.Addresses.Where(u => u.user_id == _user_id).ToArray();
+            ViewData["default"] = _db.Addresses.Where(a => a.user_id == _user_id).FirstOrDefault(a => a.isDefault == "true");
             return View("Addresses");
         }
 
-        public IActionResult Orders()
+        public IActionResult Orders(string id)
         {
+            ViewData["orders"] = _db.Orders.Where(o => o.user_id == _user_id&&o.type=="order")
+                                            .Include(o=>o.address)
+                                            .Include(o => o.order_details)
+                                                .ThenInclude(d=>d.product)
+                                          .ToArray();
             return View("Orders");
         }
 
@@ -60,11 +72,9 @@ namespace myEcomerce.Controllers
         [HttpPost]
         public void AddAddress(string id)
         {
-        //    PersonalInfo personalInfo = _db.PersonalInfos.Single(u => u.email == User.Identity.Name);
-        //    string fullname = personalInfo.first_name + " " + personalInfo.last_name;
             Address address = new Address()
             {
-                user_id = _userManager.GetUserId(User),
+                user_id = _user_id,
                 fullname = Request.Form["fullname"],
                 city = Request.Form["city"],
                 state = Request.Form["state"],
@@ -110,8 +120,7 @@ namespace myEcomerce.Controllers
         [HttpPost]
         public void setDefault(string address_id) {
             int id = Int32.Parse(address_id);
-            string userId = _userManager.GetUserId(User);
-            List<Address> addresses = _db.Addresses.Where(a => a.user_id == userId && a.isDefault == "true").ToList();
+            List<Address> addresses = _db.Addresses.Where(a => a.user_id == _user_id && a.isDefault == "true").ToList();
             foreach (Address a in addresses) a.isDefault = "false";
             _db.Addresses.Find(id).isDefault="true";
             _db.SaveChanges();
