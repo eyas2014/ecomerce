@@ -2,6 +2,7 @@
 @{
     ViewData["Title"] = "Summary";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    int[] catagories = ViewData["catagories"] as int[];
 }
 
 <div class="container">
@@ -18,24 +19,20 @@
                 </div>
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item">
-                        <span>All</span>
-                        <span class="badge badge-secondary float-right">6</span>
+                        <a href="/user/orders"><span>All</span></a>
+                        <span class="badge badge-secondary float-right">@catagories[0]</span>
                     </li>
                     <li class="list-group-item">
-                        <span>Open Orders</span>
-                        <span class="badge badge-secondary float-right">0</span>
+                        <a  href="/user/orders/open" ><span>Open Orders</span></a>
+                        <span class="badge badge-secondary float-right">@catagories[1]</span>
                     </li>
                     <li class="list-group-item">
-                        <span>Closed Orders</span>
-                        <span class="badge badge-secondary float-right">0</span>
+                        <a href="/user/orders/closed"><span>Closed Orders</span></a>
+                        <span class="badge badge-secondary float-right">@catagories[2]</span>
                     </li>
                     <li class="list-group-item">
-                        <span>Canceled Orders</span>
-                        <span class="badge badge-secondary float-right">0</span>
-                    </li>
-                    <li class="list-group-item">
-                        <span>Product waiting on rating</span>
-                        <span class="badge badge-secondary float-right">6</span>
+                        <a  href="/user/orders/canceled"><span>Canceled Orders</span></a>
+                        <span class="badge badge-secondary float-right">@catagories[3]</span>
                     </li>
                 </ul>
             </div>

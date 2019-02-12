@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -23,9 +24,30 @@ namespace myEcomerce.Data
             : base(options)
         {
         }
+
+        public override int SaveChanges()
+        {
+            AddTimestamps();
+            return base.SaveChanges();
+        }
+
+        private void AddTimestamps()
+        {
+            var entities = ChangeTracker.Entries().Where(x => x.Entity is BaseEntity && (x.State == EntityState.Added || x.State == EntityState.Modified));
+
+            foreach (var entity in entities)
+            {
+                if (entity.State == EntityState.Added)
+                {
+                    ((BaseEntity)entity.Entity).Created_at = DateTime.UtcNow;
+                }
+
+                ((BaseEntity)entity.Entity).Updated_at = DateTime.UtcNow;
+            }
+        }
     }
 
-    public class Product {
+    public class Product: BaseEntity {
 
         public int id { get; set; }
         public string name { get; set; }
@@ -51,5 +73,11 @@ namespace myEcomerce.Data
         public string color;
         public string dimensions;
         public string weight;
+    }
+
+    public class BaseEntity
+    {
+        public DateTime Created_at { get; set; }
+        public DateTime Updated_at { get; set; }
     }
 }

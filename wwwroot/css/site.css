@@ -134,7 +134,7 @@
     overflow: hidden;
 }
 
-.about-content {
+.tabs-content {
     border-style: solid;
     border-color: #ccc;
     border-width: 0px 1px 1px 1px;
@@ -163,3 +163,34 @@
     top: -10px;
     left: 2px
 }
+
+a:hover {
+    text-decoration-line: none;
+    color: #000
+}
+
+.btn-sm {
+
+    font-size: 12px;
+}
+
+a {
+    color: #17a2b8
+}
+
+.link-button {
+    border: none;
+    background-color: #fff;
+    color: #17a2b8
+}
+
+    .link-button:hover {
+        color: #000;
+        cursor: pointer
+
+    }
+
+
+
+
+

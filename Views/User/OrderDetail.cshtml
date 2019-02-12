@@ -1,0 +1,99 @@
+﻿
+@{
+    ViewData["Title"] = "OrderDetail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    int total = (int)ViewData["total"];
+    Order order = ViewData["order"] as Order;
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-2 pl-0">
+            <partial name="_navigator">
+        </div>
+        <div class="col-md-10">
+            <span class="h3">Your Orders</span><span class="ml-4 h6 text-secondary">Ordered on: @order.Created_at.ToString("MMMM dd,yyyy")</span>
+            <hr class="border border-info bg-info" />
+            <div class="card">
+                <div class="card-body">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h6>Shipping Address</h6>
+                                <span>@order.address.fullname</span>,
+                                <span>@order.address.line1</span>,
+                                <span>@order.address.line2</span><br />
+                                <span>@order.address.city</span>
+                                <span>@order.address.state</span>
+                                <span>@order.address.zipcode</span>
+                                <span>@order.address.country</span>
+                                <br />
+                                <i class="fa fa-phone" aria-hidden="true"></i>
+                                <span>@order.address.phone</span>
+                            </div>
+                            <div class="col-md-6">
+                                <h6>Order Summary</h6>
+                                <span>Status: @order.status</span>
+                                <br />
+                                <span>Number of items: @order.order_details.Count() items</span>
+                                <p>Grand Total: USD<span>@total</span>.00</p>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <a href="/user/orders" class="btn btn-sm btn-info">
+                        <i class="fas fa-arrow-left"></i>
+                        Back to your orders
+                    </a>
+                    <a href="/" class="btn btn-sm btn-success ml-3">
+                        Continue shopping
+                        <i class="fas fa-home"></i>
+                    </a>
+                </div>
+            </div>
+            <br />
+            <div class="card">
+                <div class="card-header">
+                    <i class="fas fa-cart-arrow-down"></i>
+                    Order Items
+                </div>
+                <div class="card-body">
+                    @foreach (Order_detail detail in order.order_details) {
+                    <hr class=" bg-light" />
+                    <div class="row">
+                        <div class="col-md-2">
+                            <img src="@("/images/product/"+@detail.product.id+"_w100.jpg")">
+                        </div>
+                        <div class="col-md-7">
+                            <h6>@detail.product.name</h6>
+                            <span>@detail.product.condition</span>
+
+                        </div>
+                        <div class="col-md-1">
+                            <p>@detail.quantity</p>
+                        </div>
+                        <div class="col-md-2">
+
+                            USD<span>@detail.product.price</span>.00
+                        </div>
+
+
+                    </div>
+
+                    }
+
+                </div>
+                <div class="card-footer">
+                    Grand Total:  @order.order_details.Count() items, USD<span>@total</span>.00 
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+

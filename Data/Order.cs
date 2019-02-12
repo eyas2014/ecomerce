@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace myEcomerce.Data
 {
-    public class Order
+    public class Order: BaseEntity
     {
         public int id { get; set; }
         public string type { get; set; }
@@ -18,6 +18,5 @@ namespace myEcomerce.Data
         public List<Order_detail> order_details { get; set; }
         [ForeignKey("address_id")]
         public Address address { get; set; }
-        public DateTime updated_at { get; set; }
     }
 }

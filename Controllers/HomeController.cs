@@ -36,7 +36,13 @@ namespace myEcomerce.Controllers
         public IActionResult Test() {
             return View("test");
         }
-        
+
+        [Route("error")]
+        public IActionResult Error()
+        {
+            return View("error");
+        }
+
 
         [Route("/")]
         public IActionResult Index()

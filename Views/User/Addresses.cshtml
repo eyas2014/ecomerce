@@ -113,35 +113,50 @@
                         phonenumber.value = address.phone;
                         <div class="col-md-4 mb-2">
                             <div class="card border-info">
-                                <div class="card-header bg-info">@address.fullname</div>
+                                <div class="card-header bg-info text-white">@address.fullname</div>
                                 <div class="p-3">
-                                    <h6>@address.line1</h6>
-                                    <h6>@address.line2</h6>
-                                    <h6>
+                                    <div><span>@address.line1</span>, <span>@address.line2</span></div>
+                                    <div>
                                         <span>@address.city</span>
                                         <span class="pl-1">@address.state</span>
-                                    </h6>
-                                    <h6>@address.country</h6>
+                                        <span>@address.zipcode</span>
+                                    </div>
+                                    <div>@address.country</div>
                                     <hr class="bg-light">
-                                    <p>@address.phone</p>
+                                    <div>
+                                        <i class="fas fa-phone-square"></i> 
+                                        @address.phone
+                                    </div>
                                 </div>
-                                <div class="card-footer text-center">
+                                <div class="card-footer text-center pb-0">
                                     <form>
                                         <input type="hidden" value="@address.id" name="address_id">
                                         <input type="hidden" value="@Context.Request.Path.ToString()" name="source_path">
-                                        <button type="submit" class="btn btn-sm btn-danger" formmethod="post" formaction="/user/deleteAddress">Delete</button>
-                                        <button type="button" class="btn btn-sm btn-info" data-toggle="modal" data-target="#editAddressModel-@address.id">Edit</button>
+                                        <button type="submit" class="btn btn-sm btn-danger mb-2" formmethod="post" formaction="/user/deleteAddress">
+                                            <i class="fas fa-trash-alt"></i>
+                                            Delete
+                                        </button>
+                                        <button type="button" class="btn btn-sm btn-info  mb-2" data-toggle="modal" data-target="#editAddressModel-@address.id">
+                                            <i class="far fa-edit"></i>
+                                            Edit
+                                        </button>
                                         @if (address.isDefault == "true")
                                         {
-                                            <button type="button" class="btn btn-sm btn-dark">Default</button>
+                                        <button type="button" class="btn btn-sm btn-dark  mb-2">
+                                            <i class="fas fa-check"></i>
+                                            Default
+                                        </button>
                                         }
                                         else if (address.isDefault == "false" && isEdit)
                                         {
-                                            <button type="submit" class="btn btn-sm btn-light" formaction="/user/setdefault" formmethod="post">Set Default</button>
+                                            <button type="submit" class="btn btn-sm btn-light border border-dark mb-2" formaction="/user/setdefault" formmethod="post">
+                                                <i class="fas fa-check-circle"></i>
+                                                Set Default
+                                            </button>
                                         }
                                         else
                                         {
-                                            <button type="submit" class="btn btn-sm btn-danger" formaction="/order/review" formmethod="post">Use This Address</button>
+                                            <button type="submit" class="btn btn-sm btn-danger  mb-2" formaction="/order/review" formmethod="post">Use This Address</button>
                                         }
                                     </form>
                                     <div class="modal fade" id="editAddressModel-@address.id">

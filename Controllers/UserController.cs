@@ -61,11 +61,42 @@ namespace myEcomerce.Controllers
                                             .Include(o => o.order_details)
                                                 .ThenInclude(d=>d.product)
                                           .ToArray();
+            switch (id) {
+                case "Closed":
+                    ViewData["select"] = "Closed";
+                    break;
+                case "Canceled":
+                    ViewData["select"] = "Canceled";
+                    break;
+                default:
+                    ViewData["select"] = "Open";
+                    break;       
+            }
             return View("Orders");
         }
 
         public IActionResult Summary()
         {
+            Order[] orders = _db.Orders.Where(o => o.user_id == _user_id && o.type == "order")
+                              .ToArray();
+            int[] catagories = new int[4];
+            catagories[0] = orders.Length;
+            foreach (Order order in orders) {
+                switch (order.status) {
+                    case "open":
+                        catagories[1]++;
+                        break;
+                    case "closed":
+                        catagories[2]++;
+                        break;
+                    case "canceled":
+                        catagories[3]++;
+                        break;
+                    default:
+                        break;
+                }
+            }
+            ViewData["catagories"] = catagories;
             return View("Summary");
         }
 
@@ -128,6 +159,21 @@ namespace myEcomerce.Controllers
             System.Diagnostics.Debug.WriteLine("You changed default");
             _logger.LogInformation("logger working");
             Response.Redirect(Request.Form["source_path"]);
+        }
+
+        public IActionResult OrderDetail(int id) {
+            Order order = _db.Orders
+                .Include(o => o.address)
+                .Include(o=>o.order_details)
+                    .ThenInclude(d=>d.product)
+                .First(o=>o.id==id);
+            int total=0;
+            foreach (Order_detail detail in order.order_details) {
+                total = total + detail.quantity * detail.price;
+            }
+            ViewData["total"] = total;
+            ViewData["order"] = order;
+            return View("orderdetail");
         }
     }
 }

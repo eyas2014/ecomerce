@@ -21,7 +21,7 @@
 
 </head>
 <body>
-    <div class="container">
+    <div class="px-2 col-lg-11 col-xl-10 m-auto">
         <nav class="navbar navbar-expand-lg navbar-light">
             <a class="navbar-brand" href="#"><img class="site-brand-img" src="~/images/166.jpg"></a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#topnavbar" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -66,10 +66,6 @@
                                          .Include(o => o.order_details)
                                              .ThenInclude(od => od.product)
                                          .FirstOrDefault(O => O.user_id == user_id);
-
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Wish List</a>
-                        </li>
 
                         <li class="nav-item">
                             <a class="nav-link" href="#">Notification</a>

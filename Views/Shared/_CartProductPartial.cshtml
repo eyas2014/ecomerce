@@ -4,28 +4,30 @@
 
 <div class="container  border-bottom">
     <div class="row">
-        <div class="col-md-7 px-0">
+        <div class="col-md-6 col-xl-5 px-0">
             <img class="product-img-md" src="@Model.photo">
-            <div class="">
-                <form>
-                <input type="hidden" value="@Model.detail_id" name="detail_id">
-                <button class="border-0 bg-white" formaction="/order/deletefromcart" formmethod="post">Delete</button>
-                @if (Model.type == "cart")
-                {
-                    <button formaction="/order/saveforlater" formmethod="post"class="border-0 bg-white">Save for Later</button>
-                }
-                else {
-                    <button formaction="/order/MoveToCart" formmethod="post" class="border-0 bg-white">Move to Cart</button>
-                }
-                <a href="@("/order/product/"+Model.product_id)">View Details</a>
-                </form>
-            </div>
+
         </div>
-        <div class="col-md-5 px-0">
+        <div class="col-md-6 px-0">
             <p class="m-0">@Model.name</p>
             <p class="m-0">@Model.price</p>
             <p class="m-0">@Model.items</p>
         </div>
+    </div>
+    <div class="py-2">
+        <form>
+            <input type="hidden" value="@Model.detail_id" name="detail_id">
+            <button class="link-button border-right pl-0" formaction="/order/deletefromcart" formmethod="post">Delete</button>
+            @if (Model.type == "cart")
+            {
+                <button formaction="/order/saveforlater" formmethod="post" class="link-button">Save for Later</button>
+            }
+            else
+            {
+                <button formaction="/order/MoveToCart" formmethod="post" class="link-button">Move to Cart</button>
+            }
+            <a class="border-left pl-2" href="@("/order/product/"+Model.product_id)">View Details</a>
+        </form>
     </div>
 </div>
 

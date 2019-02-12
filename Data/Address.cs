@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace myEcomerce.Data
 {
-    public class Address
+    public class Address: BaseEntity
     {
         public int id { get; set; }
         public string fullname { get; set; }
