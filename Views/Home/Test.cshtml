@@ -8,10 +8,9 @@
 
 <h2>Test</h2>
 
-<form mothod="get" action="/identity/account/logout">
-
-
+<form method="post" action="/upload" enctype="multipart/form-data">
+    <input type="file" name="files" >
     <button type="submit">submit</button>
 </form>
 
-@await  Html.PartialAsync("_LoginPartial")
+

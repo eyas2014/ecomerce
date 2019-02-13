@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using myEcomerce.Data;
 using Newtonsoft.Json;
@@ -36,6 +38,32 @@ namespace myEcomerce.Controllers
         public IActionResult Test() {
             return View("test");
         }
+
+        
+        public async Task testUpload(List<IFormFile> files) {
+
+            string filePath = Path.GetTempFileName();
+            string myfile = "wwwroot/avatar/test21.jpg";
+
+            foreach (var formFile in files)
+            {
+                if (formFile.Length > 0)
+                {
+                    using (var stream = new FileStream(myfile, FileMode.Create))
+                    {
+                        await formFile.CopyToAsync(stream);
+                    }
+                }
+            }
+
+            string foo = Request.Form["firstname"];
+
+            Response.Redirect("/"+files.Count());
+
+        }
+
+
+
 
         [Route("error")]
         public IActionResult Error()

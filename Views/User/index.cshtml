@@ -10,32 +10,29 @@
     {
         title = "Email",
         input_type = "email",
-        placeholder = personalInfo.email
+        value = personalInfo.email,
+        name = "email"
     };
 
     var firstname_input = new _FormcontrolPartial
     {
         title = "Firstname",
-        placeholder = personalInfo.first_name
+        value = personalInfo.first_name,
+        name = "firstname"
     };
 
     var lastname_input = new _FormcontrolPartial
     {
         title = "LastName",
-        placeholder = personalInfo.last_name
+        value = personalInfo.last_name,
+        name = "lastname"
     };
 
     var nickname_input = new _FormcontrolPartial
     {
         title = "Nickname",
-        placeholder = personalInfo.nickname
-    };
-
-    var birthdate_input = new _FormcontrolPartial
-    {
-        title = "Birth Date",
-        input_type = "date",
-        placeholder = personalInfo.birthday
+        value = personalInfo.nickname,
+        name = "nickname"
     };
 
     var facebook_input = new _FormcontrolPartial
@@ -44,7 +41,8 @@
         input_type = "text",
         color = "primary",
         icon = "fab fa-facebook",
-        placeholder = personalInfo.facebook
+        value = personalInfo.facebook,
+        name = "facebook"
     };
 
     var twitter_input = new _FormcontrolPartial
@@ -53,36 +51,44 @@
         input_type = "text",
         color = "info",
         icon = "fab fa-twitter",
-        placeholder = personalInfo.twitter
+        value = personalInfo.twitter,
+        name = "twitter"
     };
 
     var website_input = new _FormcontrolPartial
     {
         title = "Website",
         input_type = "text",
-        icon = "fas fa-globe"
+        icon = "fas fa-globe",
+        value = personalInfo.website,
+        name = "website"
     };
     var oldpassword_input = new _FormcontrolPartial
     {
         title = "Old Password",
         input_type = "password",
-        icon = "oi oi-lock-locked"
+        icon = "oi oi-lock-locked",
+        name = "oldpassword"
     };
     var newpassword_input = new _FormcontrolPartial
     {
-        title = "Old Password",
+        title = "New Password",
         input_type = "password",
-        icon = "oi oi-lock-locked"
+        icon = "oi oi-lock-locked",
+        name = "newpassword1"
     };
     var passwordconfirmation_input = new _FormcontrolPartial
     {
         title = "Password confirmation",
         input_type = "password",
-        icon = "oi oi-lock-locked"
+        icon = "oi oi-lock-locked",
+        name = "newpassword2"
     };
+
+    string changePassword = (string)ViewData["changePassword"];
 }
 
-<div class="container">
+<div class="px-3">
     <div class="row">
         <div class="col-md-2 pl-0">
             <partial name="_navigator">
@@ -91,19 +97,33 @@
             <h2>User Profile Information</h2>
             <hr class="border border-info bg-info" />
             <div>
-                <img class="big-avartar" src="~/images/no-avatar.png">
+                <img class="big-avartar" src="@personalInfo.image.Substring(7)">
                 <span class="align-top h2 text-primary">User Name</span>
             </div>
-            <form>
+            <form action="/user/updateProfile/info" method="post" enctype="multipart/form-data">
                 <div class="container">
                     <div class="row">
                         <div class="col-md-4">
                             @await Html.PartialAsync("_FormcontrolPartial", firstname_input)
-                            @await Html.PartialAsync("_FormcontrolPartial", birthdate_input)
+                            <div class="form-group">
+                                    <label for="birth-date">Birth Date</label>
+                                <div class="input-group input-group-sm">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text text-white  border border-secondary bg-secondary">
+                                                <small class="oi oi-menu"></small>
+                                        </div>
+                                    </div>
+                                    <input type="date"
+                                           class="form-control border border-secondary"
+                                           id="birth-date"
+                                           value="@personalInfo.birthday.ToString("yyyy-MM-dd")"
+                                           name="birthday">
+                                </div>
+                            </div>
                             @await Html.PartialAsync("_FormcontrolPartial", nickname_input)
                             <div class="form-group">
-                                <label for="user_firstname">Avartar</label>
-                                <input type="file" class="btn-sm border border-secondary p-2  w-100">
+                                <label for="label-avatar">Avartar</label>
+                                <input type="file" id="label-avater" name="myavatar" class="btn-sm border border-secondary p-2  w-100">
                             </div>
 
                         </div>
@@ -112,17 +132,32 @@
                             @await Html.PartialAsync("_FormcontrolPartial", lastname_input)
                             @await Html.PartialAsync("_FormcontrolPartial", email_input)
                             <div class="form-group">
-                                <label for="user_firstname">Gender</label>
-                                <select class="form-control border border-secondary" value="">
-                                    <option>Male</option>
-                                    <option>Female</option>
+                                <label for="user-gender">Gender</label>
+                                <select id="user-gender" class="form-control border border-secondary" name="gender">
+                                    @if (personalInfo.gender == "male")
+                                    {
+                                        <option value="male" selected="selected">Male</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="male">Male</option>
+                                    }
+                                    @if (personalInfo.gender == "female")
+                                    {
+                                        <option value="female" selected="selected">Female</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="female">Female</option>
+                                    }
+
                                 </select>
                             </div>
                         </div>
                     </div>
                     <hr class="bg-light">
                     <div class="text-right">
-                        <button class="btn btn-sm btn-success">
+                        <button type="submit" class="btn btn-sm btn-success">
                             <span class="oi oi-clipboard"></span>
                             Update Profile
                         </button>
@@ -131,7 +166,7 @@
             </form>
             <h3>Social Information</h3>
             <hr class="border border-info bg-info" />
-            <form>
+            <form action="/user/updateProfile/social" method="post">
                 <div class="container">
                     <div class="row">
                         <div class="col-md-4">
@@ -142,7 +177,7 @@
                     </div>
                     <hr class="bg-light">
                     <div class="text-right">
-                        <button class="btn btn-sm btn-success">
+                        <button type="submit" class="btn btn-sm btn-success">
                             <span class="oi oi-clipboard"></span>
                             Update Profile
                         </button>
@@ -151,7 +186,7 @@
             </form>
             <h3>Account Settings</h3>
             <hr class="border border-info bg-info" />
-            <form>
+            <form action="/user/updateProfile/password" method="post">
                 <div class="container">
                     <div class="row">
                         <div class="col-md-4">
@@ -166,9 +201,20 @@
                             @await Html.PartialAsync("_FormcontrolPartial", passwordconfirmation_input)
                         </div>
                     </div>
+                    <div>
+                        @if(changePassword == null) { }
+                        else if(changePassword == "success")
+                        {
+                            <p class="alert alert-success">The Password was changed successfully!</p>
+                        }
+                        else
+                        {
+                            <p class="alert alert-danger">@changePassword</p>
+                        }
+                    </div>
                     <hr class="bg-light">
                     <div class="text-right">
-                        <button class="btn btn-sm btn-success">
+                        <button type="submit" class="btn btn-sm btn-success">
                             <span class="oi oi-clipboard"></span>
                             Update Profile
                         </button>

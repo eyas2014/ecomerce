@@ -48,6 +48,8 @@
 
 .big-avartar {
     border-radius: 50%;
+    width: 150px;
+    height: auto
 }
 
 .push-footer {
@@ -171,7 +173,7 @@ a:hover {
 
 .btn-sm {
 
-    font-size: 12px;
+    font-size: 13px;
 }
 
 a {

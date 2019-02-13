@@ -4,7 +4,7 @@
 <div class="form-group">
     @if (Model.title != null)
     {
-    <label for="user_firstname">@Model.title</label>
+    <label for="label-@Model.name">@Model.title</label>
     }
     <div class="input-group input-group-sm">
         <div class="input-group-prepend">
@@ -19,6 +19,11 @@
                 }
             </div>
         </div>
-        <input type="@Model.input_type" class="form-control border border-@Model.color" id="user_firstname" placeholder="@Model.placeholder">
+        <input type="@Model.input_type" 
+               class="form-control border border-@Model.color" 
+               id="label-@Model.name" 
+               value="@Model.value"
+               name="@Model.name"
+         >
     </div>
 </div>
