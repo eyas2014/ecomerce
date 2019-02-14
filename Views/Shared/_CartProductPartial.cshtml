@@ -1,8 +1,9 @@
 ﻿@using myEcomerce.Views.Shared;
+@using System.Globalization;
 @model _CartProductPartial;
 
 
-<div class="container  border-bottom">
+<div class="container border-bottom">
     <div class="row">
         <div class="col-md-6 col-xl-5 px-0">
             <img class="product-img-md" src="@Model.photo">
@@ -10,8 +11,8 @@
         </div>
         <div class="col-md-6 px-0">
             <p class="m-0">@Model.name</p>
-            <p class="m-0">@Model.price</p>
-            <p class="m-0">@Model.items</p>
+            <p class="m-0"><span>Price: USD$</span>@Model.price<span>.000</span></p>
+            <p class="m-0">Quantity: @Model.items</p>
         </div>
     </div>
     <div class="py-2">

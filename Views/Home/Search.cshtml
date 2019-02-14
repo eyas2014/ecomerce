@@ -4,8 +4,11 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
     Product[] searchResult = ViewData["searchResult"] as Product[];
 }
-
-<h6>Find @searchResult.Length products</h6>
+<div>
+    <span>Find @searchResult.Length products. </span> 
+    <span>Searched with: </span>
+    <span class="badge badge-info">@ViewData["query"]</span>
+</div>
 <hr class="bg-info border-info border">
 <div class="container">
     <div class="row">

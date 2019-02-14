@@ -12,7 +12,11 @@ namespace myEcomerce.Controllers
     public class OrderController : Controller
     {
         private ApplicationDbContext _db { get; set; }
-        private string _user_id { get; set; }
+        private string _user_id { get {
+                return _userManager.GetUserId(User);
+            }
+        }
+
         private UserManager<IdentityUser> _userManager { get; set; }
 
         public OrderController(ApplicationDbContext Db, UserManager<IdentityUser> userManager)
@@ -43,16 +47,13 @@ namespace myEcomerce.Controllers
 
         public IActionResult Review(int address_id)
         {
-            _user_id = _userManager.GetUserId(User);
             ViewData["cart"] = getCart("cart").order_details;
             ViewData["address"] = _db.Addresses.Find(address_id);
             return View("cart");
         }
 
-        [HttpPost]
-        public void AddToCart(int product_id, string quantity)
+        public void AddToCart(int product_id, int quantity)
         {
-            _user_id = _userManager.GetUserId(User);
             Order basicCart = _db.Orders
                                  .Where(o => o.type == "cart")
                                  .Include(o => o.order_details)
@@ -74,7 +75,7 @@ namespace myEcomerce.Controllers
 
             Order_detail order_detail = new Order_detail()
             {
-                quantity = Int32.Parse(quantity),
+                quantity = quantity,
                 product = product,
                 status = "1"
             };
@@ -99,8 +100,6 @@ namespace myEcomerce.Controllers
         {
             int id = Int32.Parse(detail_id);
             Order_detail itemToSave = _db.Order_details.Find(id);
-
-            _user_id = _userManager.GetUserId(User);
             Order basicCart = _db.Orders
                                  .Where(o => o.type == "later")
                                  .FirstOrDefault(O => O.user_id == _user_id);
@@ -110,13 +109,44 @@ namespace myEcomerce.Controllers
             Response.Redirect("/order/cart");
         }
 
+        [HttpGet] 
+        public void SaveForLater(int product_id)            
+        {
+            Product product = _db.Products.Find(product_id);
+            Order_detail order_detail = new Order_detail()
+            {
+                quantity = 1,
+                product = product,
+                status = "1"
+            };
+
+            Order basicCart = _db.Orders
+                                 .Where(o => o.type == "later")
+                                 .Include(o => o.order_details)
+                                 .FirstOrDefault(O => O.user_id == _user_id);
+
+            if (basicCart == null)
+            {
+                basicCart = new Order()
+                {
+                    user_id = _user_id,
+                    type = "cart",
+                    status = "open",
+                    order_details = new List<Order_detail>()
+                };
+                _db.Orders.Add(basicCart);
+            }
+
+            basicCart.order_details.Add(order_detail);
+            _db.SaveChanges();
+            Response.Redirect("/order/cart");
+        }
+
         [HttpPost]
         public void MoveToCart(string detail_id)
         {
             int id = Int32.Parse(detail_id);
             Order_detail itemToMove = _db.Order_details.Find(id);
-
-            _user_id = _userManager.GetUserId(User);
             Order basicCart = _db.Orders
                                  .Where(o => o.type == "cart")
                                  .FirstOrDefault(O => O.user_id == _user_id);
@@ -128,7 +158,6 @@ namespace myEcomerce.Controllers
 
         public IActionResult PlaceOrder() {
             int address_id = Int32.Parse(Request.Form["address_id"]);
-            _user_id = _userManager.GetUserId(User);
             Order cart_order = _db.Orders
                                 .Where(O => O.user_id == _user_id)
                                 .First(o => o.type == "cart");
@@ -165,7 +194,6 @@ namespace myEcomerce.Controllers
 
         private Order getCart(string type)
         {
-            _user_id = _userManager.GetUserId(User);
             Order cart = _db.Orders.Where(o => o.type == type)
                                     .Include(o => o.order_details)
                                         .ThenInclude(od => od.product)

@@ -68,12 +68,13 @@
                                          .FirstOrDefault(O => O.user_id == user_id);
 
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Notification</a>
+                            <a class="nav-link" href="/notifications">Notification</a>
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                @if(order_cart != null){
-                                <span class="badge badge-pill badge-primary">@order_cart.order_details.Count()</span>
+                                @if (order_cart != null)
+                                {
+                                    <span class="badge badge-pill badge-primary">@order_cart.order_details.Count()</span>
                                 }
                                 Shopping Cart
                             </a>
@@ -119,30 +120,35 @@
         </nav>
 
         <!--search box-->
-        <div class="search-box">
-            <div class="input-group w-100">
-                <div class="input-group-prepend dropdown">
-                    <button class="btn dropdown-toggle input-group-text  border-0" data-toggle="dropdown">
-                        All Catagories
-                    </button>
-                    <div class="dropdown-menu">
-                        <a class="dropdown-item" href="#">Catagory A</a>
-                        <a class="dropdown-item" href="#">Catagory B</a>
-                        <a class="dropdown-item" href="#">Catagory C</a>
+        <form action="/search" method="get">
+            <div class="search-box">
+                <div class="input-group w-100">
+
+                    <div class="input-group-prepend dropdown">
+                        <button class="btn dropdown-toggle input-group-text  border-0" data-toggle="dropdown">
+                            All Catagories
+                        </button>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="#">Catagory A</a>
+                            <a class="dropdown-item" href="#">Catagory B</a>
+                            <a class="dropdown-item" href="#">Catagory C</a>
+                        </div>
                     </div>
-                </div>
-                <input class="form-control border-0" placeholder="Search...">
-                <div class="input-group-append">
-                    <button class="input-group-text border-0">
-                        <i class="fa fa-search"></i>
-                    </button>
+
+                    <input class="form-control border-0" placeholder="Search..." name="q">
+                    <div class="input-group-append">
+                        <button type="submit" class="input-group-text border-0">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
                 </div>
             </div>
-        </div>
+        </form>
 
 
 
-        <div class="pt-3">
+        <div class="pt-3 body-rendered">
             @RenderBody()
         </div>
     </div>

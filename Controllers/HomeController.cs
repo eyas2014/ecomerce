@@ -30,6 +30,7 @@ namespace myEcomerce.Controllers
         [Route("search")]
         public IActionResult Search(string q) {
             ViewData["searchResult"]=_db.Products.Where(product=>product.tags.Contains(q)).ToArray();
+            ViewData["query"] = q;
             return View("search");
 
         }
@@ -160,6 +161,13 @@ namespace myEcomerce.Controllers
             info.index = 2;
 
             return View("about");
+        }
+
+        [Route("/notifications")]
+        public IActionResult notifications()
+        {
+
+           return View("notifications");
         }
 
     }
