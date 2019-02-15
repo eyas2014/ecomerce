@@ -34,9 +34,9 @@ namespace myEcomerce
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-            string conn = "server=localhost;database=test; user=root; password=sym123456";
+//            string conn = "server=localhost;database=test; user=root; password=sym123456";
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseMySql(conn));
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddDefaultIdentity<IdentityUser>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
