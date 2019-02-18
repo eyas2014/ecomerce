@@ -1,16 +1,33 @@
-﻿@inject SignInManager<IdentityUser> SignInManager
-@inject UserManager<IdentityUser> UserManager
-
-@{
+﻿@{
     ViewData["Title"] = "Test";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Test</h2>
+<h2>@ViewData["process"]</h2>
 
-<form method="post" action="/upload" enctype="multipart/form-data">
-    <input type="file" name="files" >
-    <button type="submit">submit</button>
-</form>
+<div class="nav nav-tabs" id="myTab" >
+    
+        <a  data-toggle="tab" href="#home" >Home</a>
+   
+   
+        <a  data-toggle="tab" href="#profile" >Profile</a>
+   
+
+        <a  data-toggle="tab" href="#messages" >Messages</a>
+
+
+        <a  data-toggle="tab" href="#settings" >Settings</a>
+ 
+</div>
+
+<!-- Tab panes -->
+<div class="tab-content">
+    <div class="tab-pane active" id="home" >home</div>
+    <div class="tab-pane" id="profile" >profile</div>
+    <div class="tab-pane" id="messages" >messages</div>
+    <div class="tab-pane" id="settings" >settings</div>
+</div>
+
+
 
 

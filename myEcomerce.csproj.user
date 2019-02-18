@@ -10,6 +10,6 @@
     <WebStackScaffolding_IsAsyncSelected>False</WebStackScaffolding_IsAsyncSelected>
     <WebStackScaffolding_ViewDialogWidth>600</WebStackScaffolding_ViewDialogWidth>
     <WebStackScaffolding_LayoutPageFile>~/Views/Shared/_Layout.cshtml</WebStackScaffolding_LayoutPageFile>
-    <NameOfLastUsedPublishProfile>ecomerce - Web Deploy</NameOfLastUsedPublishProfile>
+    <NameOfLastUsedPublishProfile>productocean - Web Deploy</NameOfLastUsedPublishProfile>
   </PropertyGroup>
 </Project>

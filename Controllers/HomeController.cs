@@ -28,20 +28,61 @@ namespace myEcomerce.Controllers
 
 
         [Route("search")]
-        public IActionResult Search(string q) {
-            ViewData["searchResult"]=_db.Products.Where(product=>product.tags.Contains(q)).ToArray();
+        public IActionResult Search(string q)
+        {
+            ViewData["searchResult"] = _db.Products.Where(product => product.tags.Contains(q)).ToArray();
             ViewData["query"] = q;
             return View("search");
 
         }
 
         [Route("test")]
-        public IActionResult Test() {
+        public IActionResult Test()
+        {
+
+            ViewData["process"] = "processed!!";
+
             return View("test");
         }
 
-        
-        public async Task testUpload(List<IFormFile> files) {
+        [Route("/product/{id}")]
+        public IActionResult Product(int id)
+        {
+            Product product = _db.Products.Find(id);
+
+            ViewData["product"] = product;
+            ViewData["related"] = relatedProducts(product.tags);
+
+            return View("productdetail");
+        }
+
+        private Product[] relatedProducts(string tags)
+        {
+            string[] tagsArray = tags.Split(",");
+            Product[] products = _db.Products.ToArray();
+            int size = products.Length;
+            Dictionary<int, int> similarity = new Dictionary<int, int>();
+            for (int i = 0; i < 150; i++) similarity[i] = 0;
+            foreach (string tag in tagsArray)
+            {
+                for (int i = 0; i < size; i++)
+                {
+                    if (products[i].tags.Contains(tag)) similarity[i]++;
+                }
+            }
+            var HighRelated = similarity.OrderByDescending(node => node.Value).ToArray();
+
+            Product[] related = new Product[4];
+            for (int i = 0; i < 4; i++)
+            {
+                related[i] = _db.Products.Find(HighRelated.ElementAt(i).Key + 1);
+            }
+
+            return related;
+        }
+
+        public async Task testUpload(List<IFormFile> files)
+        {
 
             string filePath = Path.GetTempFileName();
             string myfile = "wwwroot/avatar/test21.jpg";
@@ -59,7 +100,7 @@ namespace myEcomerce.Controllers
 
             string foo = Request.Form["firstname"];
 
-            Response.Redirect("/"+files.Count());
+            Response.Redirect("/" + files.Count());
 
         }
 
@@ -77,7 +118,7 @@ namespace myEcomerce.Controllers
         public IActionResult Index()
         {
             var products = _db.Products.ToList();
-            ViewData["topViewed"] = products.OrderByDescending(product=>product.view_counts).Take(4).ToArray();
+            ViewData["topViewed"] = products.OrderByDescending(product => product.view_counts).Take(4).ToArray();
             ViewData["topPurchased"] = products.OrderByDescending(product => product.sale_counts).Take(4).ToArray();
             ViewData["topRated"] = products.OrderByDescending(product => product.rate_count).Take(4).ToArray();
             ViewData["tags"] = getTags(products);
@@ -85,7 +126,8 @@ namespace myEcomerce.Controllers
             return View();
         }
 
-        private string[] getTags(List<Product> products) {
+        private string[] getTags(List<Product> products)
+        {
 
             Dictionary<string, int> tagDict = new Dictionary<string, int>();
             foreach (Product product in products)
@@ -167,7 +209,7 @@ namespace myEcomerce.Controllers
         public IActionResult notifications()
         {
 
-           return View("notifications");
+            return View("notifications");
         }
 
     }

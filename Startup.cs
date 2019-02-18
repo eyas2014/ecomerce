@@ -36,7 +36,7 @@ namespace myEcomerce
 
 //            string conn = "server=localhost;database=test; user=root; password=sym123456";
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+                options.UseMySql(Configuration.GetConnectionString("mySqlConnection")));
             services.AddDefaultIdentity<IdentityUser>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 

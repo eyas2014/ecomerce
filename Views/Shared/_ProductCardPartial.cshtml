@@ -2,7 +2,7 @@
 
 <div class="card product-card p-2 mb-2">
     <div class="image">
-         <img src="@("/images/product/"+Model.id+"_h250.jpg")">
+         <img src="@("/images/product/"+Model.image_array()[0]+"_m.jpg")">
     </div>
     <h6 class="card-price">@Model.price</h6>
     <div class="title">
@@ -27,7 +27,7 @@
             </div>
             <div class="col-4 text-white px-0">
                 <div class="product-card-action">
-                    <a href="/order/product/@Model.id">
+                    <a href="/product/@Model.id">
                     <i class="fa fa-eye"></i>
                     </a>
                 </div>

@@ -1,0 +1,131 @@
+﻿@{
+    ViewData["Title"] = "ProductDetail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    Product product = ViewData["product"] as Product;
+    int[] image_array = product.image_array();
+    Product[] products = ViewData["related"] as Product[];
+}
+
+
+
+<h2>@product.name</h2>
+<hr class="border-info border bg-info">
+<div class="container">
+    <div class="row">
+        <div class="col-lg-5 border-bottom py-3 pl-0">
+            <div class="tab-content">
+                <div class="tab-pane active" id=@("gallery" +0)>
+                    <img class="w-100 rounded"  src="@("/images/product/" + image_array[0] + ".jpg")">
+                </div>
+                @for (int i = 1; i < 5; i++)
+                {
+                    <div class="tab-pane" id=@("gallery" +i)>
+                        <img class="w-100 rounded" src="@("/images/product/" + image_array[i] + ".jpg")">
+                    </div>
+                }
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <h3><span>USD</span>@product.price<span>.00</span></h3>
+            <hr class="bg-light" />
+            <p>Condition: @product.condition</p>
+            <p>Brand: @product.brand</p>
+            <p>Weight: @product.ParseFeature().weight</p>
+            <p>Dimension: @product.ParseFeature().dimensions</p>
+            <p>Color: @product.ParseFeature().color</p>
+            @if (product.stock != 0)
+            {
+                <span class="badge badge-success">In stock</span>
+            }
+            else
+            {
+                <span class="badge badge-secondary">Out of stock</span>
+            }
+        </div>
+        <div class="col-lg-3">
+            <div class="card">
+                <div class="card-body">
+                    <form>
+                        <div class="form-group">
+                            <label>Quantity</label>
+                            <select class="form-control" name="quantity">
+                                @for (int i = 1; i < product.stock + 1; i++)
+                                {
+                                    <option value="@i">@i</option>
+                                }
+                            </select>
+                        </div>
+                        <hr class="bg-light" />
+                        <input type="hidden" name="product_id" value="@product.id">
+                        <button type="submit" formaction="/order/addtocart" formmethod="post" class="btn btn-warning w-100">
+                            <span class="oi oi-cart"></span>
+                            Add to cart
+                        </button>
+                        <hr class="bg-light" />
+                        <div>
+                            <button type="submit" class="btn btn-dark w-100">
+                                <i class="fab fa-facebook"></i>
+                                share on facebook
+                            </button>
+                        </div>
+                        <div>
+                            <br />
+                            <button type="submit" class="btn btn-info w-100">
+                                <i class="fab fa-twitter"></i>
+                                share on twitter
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </div>
+    <br />
+    <div class="row">
+        <div class="nav nav-tabs" id="myTab">
+            <a class="active" data-toggle="tab" href="#gallery0">
+                <img src="@("/images/product/"+image_array[0]+"_s.jpg")" class="product-img-sm" />
+            </a>
+            @for (int i = 1; i < 5; i++)
+            {
+                <a data-toggle="tab" href=@("#gallery"+i)>
+                    <img src="@("/images/product/"+image_array[i]+"_s.jpg")" class="product-img-sm" />
+                </a>
+            }
+        </div>
+    </div>
+</div>
+
+<div class="py-3 text-primary">
+    <h2>Description</h2>
+    <hr class="border border-info bg-info" />
+    <p>@product.description</p>
+</div>
+
+<div class="py-3 text-primary">
+    <h2>Reviews</h2>
+    <hr class="border border-info bg-info" />
+    @for (int i = 0; i < 4; i++)
+    {
+        <i class="fa fa-star" aria-hidden="true"></i>
+    }
+    <span>Good</span>
+    <span>-@DateTime.Today.ToString("MMM dd, yyyy")</span>
+</div>
+
+<div class="py-3 text-primary">
+    <h2>Related Products</h2>
+    <hr class="border border-info bg-info" />
+    <div class="row">
+        @foreach (Product p in products)
+        {<div class="col-md-3 col-sm-6">
+                @await Html.PartialAsync("_ProductCardPartial", p)
+            </div>
+        }
+    </div>
+</div>
+

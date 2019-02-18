@@ -79,11 +79,19 @@
 
 .product-img-sm {
     height: 80px;
+}
+
+#myTab .active img {
+    border: solid 2px #888;
+}
+
+#myTab img {
     padding: 5px;
     border-radius: 3px;
     border: solid 2px #aaa;
     margin-right: 5px
 }
+
 
 .product-card {
     height: 420px;

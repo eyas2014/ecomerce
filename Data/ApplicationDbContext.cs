@@ -63,6 +63,12 @@ namespace myEcomerce.Data
         public int view_counts { get; set; }
         public int sale_counts { get; set; }
         public string condition { get; set; }
+        public string images { get; set; }
+
+        public int[] image_array() {
+            return images.Split(",").Select(n=>int.Parse(n)).ToArray();
+        }
+
 
         public Feature ParseFeature() {
             return JsonConvert.DeserializeObject<Feature>(features);
