@@ -216,6 +216,15 @@ a {
     }
 
 
+.text-nowrap {
+    white-space: nowrap;
+}
+
+.address-panel {
+    height: 110px
+}
+
+
 
 
 

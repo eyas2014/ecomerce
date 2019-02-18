@@ -5,28 +5,66 @@
 
 <h2>@ViewData["process"]</h2>
 
-<div class="nav nav-tabs" id="myTab" >
-    
-        <a  data-toggle="tab" href="#home" >Home</a>
-   
-   
-        <a  data-toggle="tab" href="#profile" >Profile</a>
-   
+<ul class="nav nav-fill">
+    <li class="nav-item">
+        <a class="nav-link active" href="#">Active</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="#">Longer nav link</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="#">Link</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link disabled" href="#">Disabled</a>
+    </li>
+</ul>
 
-        <a  data-toggle="tab" href="#messages" >Messages</a>
 
+    <ul class="nav nav-fill">
+        <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+        <li class="dropdown nav-item">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                yshao2@uchicago.edu
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" href="/user/summary">Summary</a>
+                <a class="dropdown-item" href="/user">Profile</a>
+                <a class="dropdown-item" href="/user/addresses">Address Book</a>
+                <a class="dropdown-item" href="/user/orders">My Orders</a>
+                <div class="dropdown-divider"></div>
+                <form method="post" id="logoutForm" class="navbar-right" action="/Identity/Account/Logout?returnUrl=%2F">
+                    <button type="submit" class="dropdown-item">Sign Out</button>
+                    <input name="__RequestVerificationToken" type="hidden" value="CfDJ8KCIq13cXsdPoXOZMyvwYXvQa2N_WFU2oEzidfVGBN4mwEUREAdISd2DsT9zFOlARpwd_FWZGsFhK0BPFMF1J0LPHrT-h1_IHbkZVWM1jzYDqGgR3dZCFFi31ZAAPZeRYbsJFQyHexLFPJh2MfGFOnGCL7YzeXzAOrFZrRLBVOZT8Qw2ynNNbtKPOtTIZ1TYpA" />
+                </form>
+            </div>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/notifications">Notification</a>
+        </li>
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span class="badge badge-pill badge-primary">0</span>
+                Shopping Cart
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="/order/cart">View Shopping Cart</a>
+            </div>
+        </li>
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Who we are
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" href="/about">About Us</a>
+                <a class="dropdown-item" href="/refunds">Refund Policy</a>
+                <a class="dropdown-item" href="/terms">Terms and Conditions</a>
+                <a class="dropdown-item" href="/contact">Contact US</a>
+            </div>
+        </li>
+    </ul>
 
-        <a  data-toggle="tab" href="#settings" >Settings</a>
- 
-</div>
-
-<!-- Tab panes -->
-<div class="tab-content">
-    <div class="tab-pane active" id="home" >home</div>
-    <div class="tab-pane" id="profile" >profile</div>
-    <div class="tab-pane" id="messages" >messages</div>
-    <div class="tab-pane" id="settings" >settings</div>
-</div>
 
 
 

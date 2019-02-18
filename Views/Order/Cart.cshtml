@@ -68,7 +68,7 @@
                             name = detail.product.name,
                             price = detail.product.price,
                             items = detail.quantity,
-                            photo = "/images/product/" + detail.product.id + ".jpg"
+                            photo = "/images/product/" + detail.product.image_array()[0] + ".jpg"
                         };
                         <div class="col-lg-6 mt-3">
                             @await Html.PartialAsync("_CartProductPartial", product)

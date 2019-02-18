@@ -23,17 +23,15 @@
 <body>
     <div class="px-2 col-lg-11 col-xl-10 m-auto">
         <nav class="navbar navbar-expand-lg navbar-light">
-            <a class="navbar-brand" href="#"><img class="site-brand-img" src="~/images/166.jpg"></a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#topnavbar" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="topnavbar">
-
-                <ul class="navbar-nav nav-fill">
-                    <li class="nav-item dropdown">
+                <ul class="nav">
+                    <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+                    <li class="dropdown nav-item">
                         @if (SignInManager.IsSignedIn(User))
-                        {
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        {   <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 @User.Identity.Name
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -58,7 +56,7 @@
                                 <a class="dropdown-item" href="/identity/account/register">Register</a>
                             </div>
                         }
-                    </li>
+                    </link>
                     @if (SignInManager.IsSignedIn(User))
                     {
                         string user_id = UserManager.GetUserId(User);
@@ -86,7 +84,7 @@
                                     {
                                         <div class="dropdown-item" href="#">
                                             <div class="nav-cart-item">
-                                                <img src="@("/images/product/" + detail.product.id + "_h60.jpg")">
+                                                <img src="@("/images/product/" + detail.product.image_array()[0] + "_s.jpg")">
                                                 <div>
                                                     <small>
                                                         <span>@detail.product.name</span>
@@ -114,7 +112,7 @@
                         </div>
                     </li>
                 </ul>
-            </div>
+             </div>
 
 
         </nav>
